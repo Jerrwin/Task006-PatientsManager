@@ -139,19 +139,19 @@ $result = $conn->query($sql);
         </div>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm overflow-hidden">
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-striped table-hover mb-0">
                     <thead class="table-dark">
                         <tr class="text-center">
-                            <th>ID</th>
-                            <th>Name</th>
+                            <th class="text-nowrap">ID</th>
+                            <th class="text-nowrap">Name</th>
                             <th>Age</th>
-                            <th>Joined Date</th>
-                            <th>Phone</th>
-                            <th>Total Visits</th>
-                            <th>Actions</th>
+                            <th class="text-nowrap">Joined Date</th>
+                            <th class="text-nowrap">Phone</th>
+                            <th class="text-nowrap">Total Visits</th>
+                            <th class="text-nowrap">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
@@ -159,7 +159,8 @@ $result = $conn->query($sql);
                             <?php while ($row = $result->fetch_assoc()): ?>
                                 <tr>
                                     <td>#<?php echo $row['patient_id']; ?></td>
-                                    <td class="fw-bold"><?php echo htmlspecialchars($row['name']); ?></td>
+
+                                    <td class="fw-bold text-nowrap"><?php echo htmlspecialchars($row['name']); ?></td>
 
                                     <td>
                                         <span class="badge bg-info text-dark">
@@ -167,8 +168,9 @@ $result = $conn->query($sql);
                                         </span>
                                     </td>
 
-                                    <td><?php echo $row['formatted_join_date']; ?></td>
-                                    <td><?php echo htmlspecialchars($row['phone']); ?></td>
+                                    <td class="text-nowrap"><?php echo $row['formatted_join_date']; ?></td>
+
+                                    <td class="text-nowrap"><?php echo htmlspecialchars($row['phone']); ?></td>
 
                                     <td>
                                         <span class="badge bg-secondary rounded-pill">
@@ -176,26 +178,31 @@ $result = $conn->query($sql);
                                         </span>
                                     </td>
 
-                                    <td>
-                                        <a href="view.php?id=<?php echo $row['patient_id']; ?>"
-                                            class="btn btn-sm btn-info text-white me-1 d-inline-flex align-items-center justify-content-center"
-                                            title="View Profile" style="width: 32px; height: 32px;"> <img
-                                                src="../assets/icons/view.png" alt="View"
-                                                style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
-                                        </a>
+                                    <td class="text-center">
+                                        <div class="d-flex justify-content-center gap-1 text-nowrap">
+                                            <a href="view.php?id=<?php echo $row['patient_id']; ?>"
+                                                class="btn btn-sm btn-info text-white d-flex align-items-center justify-content-center"
+                                                title="View Profile" style="width: 32px; height: 32px;">
+                                                <img src="../assets/icons/view.png" alt="View"
+                                                    style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
+                                            </a>
 
-                                        <a href="edit.php?id=<?php echo $row['patient_id']; ?>"
-                                            class="btn btn-sm btn-warning d-inline-flex align-items-center justify-content-center"
-                                            title="Edit Details" style="width: 32px; height: 32px;">
-                                            <img src="../assets/icons/edit.png" alt="Edit" style="width: 16px; height: 16px;">
-                                        </a>
-                                        <a href="delete.php?id=<?php echo $row['patient_id']; ?>"
-                                            class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center"
-                                            onclick="return confirm('⚠️ WARNING: This will delete the patient AND all their visit history.\n\nAre you sure?');"
-                                            style="width: 32px; height: 32px;">
-                                            <img src="../assets/icons/delete.png" alt="Delete"
-                                                style="width: 16px; height: 16px;">
-                                        </a>
+                                            <a href="edit.php?id=<?php echo $row['patient_id']; ?>"
+                                                class="btn btn-sm btn-warning d-flex align-items-center justify-content-center"
+                                                title="Edit Details" style="width: 32px; height: 32px;">
+                                                <img src="../assets/icons/edit.png" alt="Edit"
+                                                    style="width: 16px; height: 16px;">
+                                            </a>
+
+                                            <a href="delete.php?id=<?php echo $row['patient_id']; ?>"
+                                                class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
+                                                title="Delete Patient"
+                                                onclick="return confirm('⚠️ WARNING: This will delete the patient AND all their visit history.\n\nAre you sure?');"
+                                                style="width: 32px; height: 32px;">
+                                                <img src="../assets/icons/delete.png" alt="Delete"
+                                                    style="width: 16px; height: 16px;">
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>

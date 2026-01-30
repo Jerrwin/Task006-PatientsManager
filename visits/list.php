@@ -74,64 +74,73 @@ $result = $conn->query($sql);
         </div>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm overflow-hidden">
         <div class="card-body p-0">
-            <table class="table table-striped table-hover mb-0">
-                <thead class="table-dark">
-                    <tr class="text-center">
-                        <th>Date</th>
-                        <th>Patient</th>
-                        <th>Days Ago</th>
-                        <th>Follow-Up</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    <?php if ($result->num_rows > 0): ?>
-                        <?php while ($row = $result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?php echo date('d-M-Y', strtotime($row['visit_date'])); ?></td>
-                                <td>
-                                    <a href="patient_visit.php?id=<?php echo $row['patient_id']; ?>"
-                                        class="fw-bold text-decoration-none">
-                                        <?php echo htmlspecialchars($row['patient_name']); ?>
-                                    </a>
-                                </td>
-                                <td><?php echo $row['days_since_visit']; ?> days</td>
-                                <td><?php echo date('d-M-Y', strtotime($row['follow_up_due'])); ?></td>
-                                <td>
-                                    <?php if ($row['follow_up_status'] == 'Overdue'): ?>
-                                        <span class="badge bg-danger">Overdue</span>
-                                    <?php elseif ($row['follow_up_status'] == 'Due Today'): ?>
-                                        <span class="badge bg-warning text-dark">Due Today</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-success">Upcoming</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <a href="patient_visit.php?id=<?php echo $row['patient_id']; ?>"
-                                        class="btn btn-sm btn-info text-white me-1" title="View History">
-                                        <img src="../assets/icons/history.png" alt="History" width="16" height="16"
-                                            style="filter: brightness(0) invert(1);">
-                                    </a>
 
-                                    <a href="delete.php?id=<?php echo $row['visit_id']; ?>" class="btn btn-sm btn-danger"
-                                        title="Delete Visit"
-                                        onclick="return confirm('Are you sure you want to delete this visit record?');">
-                                        <img src="../assets/icons/delete.png" alt="Delete" width="16" height="16"
-                                            style="filter: brightness(0) invert(1);">
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="6" class="text-center py-4">No visits found matching your search.</td>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr class="text-center">
+                            <th class="text-nowrap">Date</th>
+                            <th class="text-nowrap">Patient</th>
+                            <th class="text-nowrap">Days Ago</th>
+                            <th class="text-nowrap">Follow-Up</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="text-center">
+                        <?php if ($result->num_rows > 0): ?>
+                            <?php while ($row = $result->fetch_assoc()): ?>
+                                <tr>
+                                    <td class="text-nowrap"><?php echo date('d-M-Y', strtotime($row['visit_date'])); ?></td>
+                                    <td class="text-nowrap">
+                                        <a href="patient_visit.php?id=<?php echo $row['patient_id']; ?>"
+                                            class="fw-bold text-decoration-none">
+                                            <?php echo htmlspecialchars($row['patient_name']); ?>
+                                        </a>
+                                    </td>
+                                    <td class="text-nowrap"><?php echo $row['days_since_visit']; ?> days</td>
+                                    <td class="text-nowrap"><?php echo date('d-M-Y', strtotime($row['follow_up_due'])); ?></td>
+                                    <td>
+                                        <?php if ($row['follow_up_status'] == 'Overdue'): ?>
+                                            <span class="badge bg-danger">Overdue</span>
+                                        <?php elseif ($row['follow_up_status'] == 'Due Today'): ?>
+                                            <span class="badge bg-warning text-dark">Due Today</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-success">Upcoming</span>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-1 text-nowrap">
+                                            <a href="patient_visit.php?id=<?php echo $row['patient_id']; ?>"
+                                                class="btn btn-sm btn-info text-white d-flex align-items-center justify-content-center"
+                                                title="View History" style="width: 32px; height: 32px;">
+                                                <img src="../assets/icons/history.png" alt="History" width="16" height="16"
+                                                    style="filter: brightness(0) invert(1);">
+                                            </a>
+
+                                            <a href="delete.php?id=<?php echo $row['visit_id']; ?>"
+                                                class="btn btn-sm btn-danger d-flex align-items-center justify-content-center"
+                                                title="Delete Visit"
+                                                onclick="return confirm('Are you sure you want to delete this visit record?');"
+                                                style="width: 32px; height: 32px;">
+                                                <img src="../assets/icons/delete.png" alt="Delete" width="16" height="16"
+                                                    style="filter: brightness(0) invert(1);">
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="text-center py-4">No visits found matching your search.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <?php if ($total_pages > 1): ?>
@@ -146,9 +155,8 @@ $result = $conn->query($sql);
                     <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                         <li class="page-item <?php if ($page == $i)
                             echo 'active'; ?>">
-                            <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo $search; ?>">
-                                <?php echo $i; ?>
-                            </a>
+                            <a class="page-link"
+                                href="?page=<?php echo $i; ?>&search=<?php echo $search; ?>"><?php echo $i; ?></a>
                         </li>
                     <?php endfor; ?>
 

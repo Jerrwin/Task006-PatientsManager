@@ -26,42 +26,56 @@ $result = $conn->query($sql);
 ?>
 
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3><img src="../assets/icons/calendar.png" alt="" width="26" height="26" style="margin-bottom: 4px;"> Follow-Up Status Report</h3>
-        <a href="summary.php" class="btn btn-outline-secondary">Back to Dashboard</a>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+        <h3 class="m-0 text-center text-md-start">
+            <img src="../assets/icons/calendar.png" alt="" width="26" height="26" style="margin-bottom: 4px;"> 
+            Follow-Up Report
+        </h3>
+        <a href="summary.php" class="btn btn-outline-secondary w-10 w-md-auto">
+            Back to Dashboard
+        </a>
     </div>
 
-    <div class="card shadow-sm">
-        <table class="table table-striped mb-0">
-            <thead class="table-dark">
-                <tr>
-                    <th>Patient</th>
-                    <th>Last Visit</th>
-                    <th>Follow-Up Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
+    <div class="card shadow-sm overflow-hidden">
+
+        <div class="table-responsive">
+            <table class="table table-striped mb-0">
+                <thead class="table-dark text-center">
                     <tr>
-                        <td class="fw-bold"><?php echo htmlspecialchars($row['name']); ?></td>
-                        <td><?php echo date('d-M-Y', strtotime($row['visit_date'])); ?></td>
-                        <td><?php echo date('d-M-Y', strtotime($row['follow_up_due'])); ?></td>
-                        <td>
-                            <?php if ($row['status'] == 'Overdue'): ?>
-                                <span class="badge bg-danger">Overdue by <?php echo $row['days_overdue']; ?> days</span>
-                            <?php else: ?>
-                                <span class="badge bg-success">Upcoming</span>
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <a href="tel:<?php echo $row['phone']; ?>" class="btn btn-sm btn-outline-primary"><img src="../assets/icons/telephone.png" alt="" width="16" height="16"> Call</a>
-                        </td>
+                        <th class="text-nowrap">Patient</th>
+                        <th class="text-nowrap">Last Visit</th>
+                        <th class="text-nowrap">Follow-Up Date</th>
+                        <th class="text-nowrap">Status</th>
+                        <th class="text-nowrap">Action</th>
                     </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="text-center">
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td class="fw-bold text-nowrap"><?php echo htmlspecialchars($row['name']); ?></td>
+
+                            <td class="text-nowrap"><?php echo date('d-M-Y', strtotime($row['visit_date'])); ?></td>
+                            <td class="text-nowrap"><?php echo date('d-M-Y', strtotime($row['follow_up_due'])); ?></td>
+
+                            <td class="text-nowrap">
+                                <?php if ($row['status'] == 'Overdue'): ?>
+                                    <span class="badge bg-danger">Overdue by <?php echo $row['days_overdue']; ?> days</span>
+                                <?php else: ?>
+                                    <span class="badge bg-success">Upcoming</span>
+                                <?php endif; ?>
+                            </td>
+
+                            <td class="text-nowrap">
+                                <a href="tel:<?php echo $row['phone']; ?>"
+                                    class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1">
+                                    <img src="../assets/icons/telephone.png" alt="" width="16" height="16"> Call
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

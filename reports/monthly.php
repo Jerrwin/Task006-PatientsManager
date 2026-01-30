@@ -2,21 +2,20 @@
 require_once '../config/db.php';
 require_once '../includes/header.php';
 
-// --- 1. FETCH VISIT DATA (For Table & Chart) ---
+// FETCH VISIT DATA (For Table & Chart)
 $visit_sql = "SELECT 
                 DATE_FORMAT(visit_date, '%Y-%m') AS month_key,
-                -- FIX: Show Month AND Year (e.g., 'January 2025')
+                -- Show Month AND Year (e.g., 'January 2025')
                 DATE_FORMAT(visit_date, '%M %Y') AS month_name, 
                 COUNT(*) AS visit_count,
                 SUM(consultation_fee + lab_fee) AS total_revenue
               FROM visits 
-              WHERE visit_date IS NOT NULL AND visit_date != '0000-00-00' -- FIX: Remove empty rows
+              WHERE visit_date IS NOT NULL AND visit_date != '0000-00-00' -- Remove empty rows
               AND visit_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
               GROUP BY month_key, month_name 
               ORDER BY month_key ASC"; 
 $visit_res = $conn->query($visit_sql);
 
-// STORE DATA
 $chart_labels = [];
 $chart_data = [];
 $table_data = [];
@@ -27,14 +26,14 @@ while ($row = $visit_res->fetch_assoc()) {
     $table_data[] = $row;
 }
 
-// --- 2. FETCH PATIENT DATA (For Table Only) ---
+// FETCH PATIENT DATA (For Table Only)
 $join_sql = "SELECT 
                 DATE_FORMAT(join_date, '%Y-%m') AS month_key,
-                -- FIX: Show Month AND Year here too
+                -- Show Month AND Year
                 DATE_FORMAT(join_date, '%M %Y') AS month_name, 
                 COUNT(*) AS patient_count
              FROM patients 
-             WHERE join_date IS NOT NULL AND join_date != '0000-00-00' -- FIX: Remove empty rows
+             WHERE join_date IS NOT NULL AND join_date != '0000-00-00' -- Remove empty rows
              GROUP BY month_key, month_name 
              ORDER BY month_key DESC LIMIT 6";
 $join_res = $conn->query($join_sql);

@@ -144,17 +144,17 @@ $result = $conn->query($sql);
             <div class="table-responsive">
                 <table class="table table-striped table-hover mb-0">
                     <thead class="table-dark">
-                        <tr>
+                        <tr class="text-center">
                             <th>ID</th>
                             <th>Name</th>
                             <th>Age</th>
                             <th>Joined Date</th>
                             <th>Phone</th>
-                            <th class="text-center">Total Visits</th>
-                            <th class="text-end">Actions</th>
+                            <th>Total Visits</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         <?php if ($result->num_rows > 0): ?>
                             <?php while ($row = $result->fetch_assoc()): ?>
                                 <tr>
@@ -170,13 +170,13 @@ $result = $conn->query($sql);
                                     <td><?php echo $row['formatted_join_date']; ?></td>
                                     <td><?php echo htmlspecialchars($row['phone']); ?></td>
 
-                                    <td class="text-center">
+                                    <td>
                                         <span class="badge bg-secondary rounded-pill">
                                             <?php echo $row['total_visits']; ?>
                                         </span>
                                     </td>
 
-                                    <td class="text-end">
+                                    <td>
                                         <a href="view.php?id=<?php echo $row['patient_id']; ?>"
                                             class="btn btn-sm btn-info text-white me-1 d-inline-flex align-items-center justify-content-center"
                                             title="View Profile" style="width: 32px; height: 32px;"> <img
@@ -188,6 +188,13 @@ $result = $conn->query($sql);
                                             class="btn btn-sm btn-warning d-inline-flex align-items-center justify-content-center"
                                             title="Edit Details" style="width: 32px; height: 32px;">
                                             <img src="../assets/icons/edit.png" alt="Edit" style="width: 16px; height: 16px;">
+                                        </a>
+                                        <a href="delete.php?id=<?php echo $row['patient_id']; ?>"
+                                            class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center"
+                                            onclick="return confirm('⚠️ WARNING: This will delete the patient AND all their visit history.\n\nAre you sure?');"
+                                            style="width: 32px; height: 32px;">
+                                            <img src="../assets/icons/delete.png" alt="Delete"
+                                                style="width: 16px; height: 16px;">
                                         </a>
                                     </td>
                                 </tr>

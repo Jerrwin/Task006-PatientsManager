@@ -26,7 +26,6 @@ switch ($sort_option) {
 }
 
 
-// We only need to count rows in 'patients' that match the search
 $count_sql = "SELECT COUNT(*) FROM patients p WHERE $where_sql";
 $count_res = $conn->query($count_sql);
 $total_rows = $count_res->fetch_row()[0];

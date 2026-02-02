@@ -35,7 +35,11 @@ $sql = "SELECT
             p.patient_id,
 
             -- SQL Calc: Days Since Visit
-            DATEDIFF(CURDATE(), v.visit_date) AS days_since_visit,
+            CASE 
+                WHEN visit_date > CURDATE() THEN CONCAT('In ', DATEDIFF(visit_date, CURDATE()), ' days')
+                WHEN visit_date = CURDATE() THEN 'Today'
+                ELSE CONCAT(DATEDIFF(CURDATE(), visit_date), ' days ago')
+            END AS relative_date,  
 
             -- SQL Calc: Status Logic
             CASE 
@@ -100,7 +104,7 @@ $result = $conn->query($sql);
                                             <?php echo htmlspecialchars($row['patient_name']); ?>
                                         </a>
                                     </td>
-                                    <td class="text-nowrap"><?php echo $row['days_since_visit']; ?> days</td>
+                                    <td class="text-nowrap"><?php echo $row['relative_date']; ?></td>
                                     <td class="text-nowrap"><?php echo date('d-M-Y', strtotime($row['follow_up_due'])); ?></td>
                                     <td>
                                         <?php if ($row['follow_up_status'] == 'Overdue'): ?>

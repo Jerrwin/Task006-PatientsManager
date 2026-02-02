@@ -145,7 +145,6 @@ $result = $conn->query($sql);
                 <table class="table table-striped table-hover mb-0">
                     <thead class="table-dark">
                         <tr class="text-center">
-                            <th class="text-nowrap">ID</th>
                             <th class="text-nowrap">Name</th>
                             <th>Age</th>
                             <th class="text-nowrap">Joined Date</th>
@@ -158,8 +157,6 @@ $result = $conn->query($sql);
                         <?php if ($result->num_rows > 0): ?>
                             <?php while ($row = $result->fetch_assoc()): ?>
                                 <tr>
-                                    <td>#<?php echo $row['patient_id']; ?></td>
-
                                     <td class="fw-bold text-nowrap"><?php echo htmlspecialchars($row['name']); ?></td>
 
                                     <td>
@@ -238,48 +235,75 @@ $result = $conn->query($sql);
     </div>
 </div>
 
-<div class="modal fade" id="addPatientModal" tabindex="-1">
-    <div class="modal-dialog">
+<div class="modal fade" id="addPatientModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">Add New Patient</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title"><i class="bi bi-person-plus-fill"></i> Add New Patient</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
 
-            <form action="add.php" method="POST">
+            <form action="add.php" method="POST" autocomplete="off">
                 <div class="modal-body">
 
-                    <div class="mb-3">
-                        <label class="form-label">Full Name</label>
-                        <input type="text" name="name" class="form-control" required>
+                    <h6 class="text-primary fw-bold mb-3">1. Login Credentials</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Username</label>
+                            <input type="text" name="username" class="form-control" required
+                                autocomplete="new-password">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Password</label>
+                            <input type="password" name="password" class="form-control"
+                                required autocomplete="new-password">
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Date of Birth</label>
-                        <input type="date" name="dob" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                    <hr class="text-muted">
+
+                    <h6 class="text-primary fw-bold mb-3">2. Patient Details</h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Full Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Phone Number</label>
+                            <input type="tel" name="phone" class="form-control" pattern="[0-9]{10}" maxlength="10"
+                                placeholder="10 Digits" required>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Join Date</label>
-                        <input type="date" name="join_date" class="form-control" value="<?php echo date('Y-m-d'); ?>"
-                            required>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Date of Birth</label>
+                            <input type="date" name="dob" class="form-control" max="<?php echo date('Y-m-d'); ?>"
+                                required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Join Date</label>
+                            <input type="date" name="join_date" class="form-control"
+                                value="<?php echo date('Y-m-d'); ?>" required>
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Phone Number</label>
-                        <input type="text" name="phone" class="form-control" pattern="[0-9]{10}" maxlength="10"
-                            placeholder="e.g. 9876543210" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Address</label>
+                    <div class="mb-2">
+                        <label class="form-label small text-muted">Address</label>
                         <textarea name="address" class="form-control" rows="2"></textarea>
                     </div>
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Patient</button>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary fw-bold">Create Account</button>
                 </div>
             </form>
         </div>
